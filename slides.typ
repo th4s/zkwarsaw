@@ -3,12 +3,23 @@
 
 #show: simple-theme.with(aspect-ratio: "16-9")
 
-= Title
+// Import slides from older presentation
+#let tum-slide(slide_num) = {
+	let image = image("tum-presi/" + str(slide_num)  + ".svg")
+	let fitted = utils.fit-to-height(100%, image)
+	empty-slide(config: config-page(margin: (x: 0em, y: 0em)))[#fitted]
+}
 
-== First Slide
+#for k in range(1, 12) {
+	tum-slide(k)
+}
 
-Hello, Touying!
+== Oblivious Transfer
 
-#pause
 
-Hello, Typst!
+#slide[
+	+ First column.
+	- $sum_(i=2)^3 i^2$
+][
+	Second column.
+]
