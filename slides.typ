@@ -71,14 +71,14 @@
 		scale(85%, reflow: true,
 			diagram(spacing: 1em,
 				node((0, 0), $P_S " Input": (m_0, m_1)$),
-				node((3, 0), $P_R " Output:" m_c$),
+				node((3, 0), $P_R "Input: c Output:" m_c$),
 				node((0, 1), $a arrow.l ZZ_p$),
 				node((3, 1), $b arrow.l ZZ_p$),
 				edge((0.5, 2), (2.5, 2), $A = g^a$, "-|>"),
 				pause,
 
 				node((3, 3), $"if" c = 0: B = g^b$),
-				node((3, 3.5), $"  if" c = 0: B = A g^b$),
+				node((3, 3.5), $"  if" c = 1: B = A g^b$),
 				edge((0.5, 4.5), (2.5, 4.5), $B$, "<|-"),
 				pause,
 
@@ -152,8 +152,77 @@
 	- (or) evaluator sends *active output labels* $w_i, i in OO$
 Optimizations: Row reduction, Free XOR, Half gates
 
-== (V)OLE
+== Oblivious Linear Evaluation (OLE)#h(1em) #text(blue, size: 20pt)[https://eprint.iacr.org/2017/617]
+#align(center + horizon, 
+	diagram(
+		node((0, 1), [$P_A$]),
 
+		edge((0.75, 0.75), (2, 0.75), label: $a$, "-|>"),
+		edge((0.75, 1.25), (2, 1.25), $x$, "-|>"),
+		edge((0.75, 1.3), (2, 1.3), "<|-"),
+
+		node((2, 1), "OLE", stroke: 1pt, inset: 3em),
+
+		edge((2, 0.75), (3, 0.75), $b$, "<|-"),
+		edge((2, 1.25), (3, 1.25), $y$, "-|>"),
+
+		node((3.5, 1), [$P_B$]),
+		node((4, 1.5), [$a,b,x,y in FF$])
+	)
+)
+such that $y(a) = a dot b + x <=> y - x = a dot b$ 
+
+- sometimes also called M2A
+- *VOLE*: $y_k = a_k dot b  + x_k$
+
+== VOLE (MASCOT COPEe) #h(5em) #text(blue, size: 20pt)[https://eprint.iacr.org/2016/505]
+#align(center + horizon,
+	box(
+		scale(85%, reflow: true,
+			diagram(spacing: 1em,
+			edge((-0.5, 1), (0.5, 1), label: $(t_0^i, t_1^i)$, "<|-"),
+			node((0.5, 1), $"ROT"_"i"$, stroke: 1pt, inset: 3em),
+			edge((0.5, 0.75), (2, 0.75), $b_i$, "<|-"),
+			edge((0.5, 1.25), (2, 1.25), $t_(b_i)$, "-|>"),
+			node((3, 0), $P_B " Input:" b in FF$),
+
+
+			node((-0.5, -1), [*Setup:*]),
+			node((0, 2), $s_(i, 0)^k := "PRF" (t_0^i, k),
+				s_(i, 1)^k := "PRF" (t_1^i, k)$, ),
+
+			)
+		)
+	)
+)
+
+== VOLE (MASCOT COPEe) #h(5em) #text(blue, size: 20pt)[https://eprint.iacr.org/2016/505]
+#align(center + horizon,
+	box(
+		scale(85%, reflow: true,
+			diagram(spacing: 1em,
+			node((0, 0), [*Extend:*]),
+			node((0, 1), $P_A " Input:" a in FF$),
+			node((4, 1), $P_B " Input:" b in FF$),
+			edge((0, 4), (4, 4), $u_i^k := s_(i, 0)^k - s_(i, 1)^k +
+			a_k$,"-|>"),
+
+
+			node((0, 6), $x_i^k := s_(i, 0)^k$),
+
+			node((4, 6), $y_i^k &= b_i dot u_i^k +
+			s_(i, b_i)^k \
+			&= b_i (s_(i, 0)^k - s_(i, 1)^k + a_k) + s_(i, b_i)^k \
+			&= b_i dot a_k + s_(i, 0)^k
+			$),
+			
+
+			node((0, 7), $" Output:" x_k = sum 2^i x_i^k $),
+			node((4, 7), $" Output:" y_k = sum 2^i y_i^k$),
+			)
+		)
+	)
+)
 
 // in preprocesing talk about OT pipeline and GC preprocessing
 // en-/decryption: AES, GHASH, DEAP
