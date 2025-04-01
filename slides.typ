@@ -251,7 +251,7 @@ such that $y(a) = a dot b + x <=> y - x = a dot b$
 ][
 #align(center)[
 	#v(1.5em)
-	$ (x_r, #text(fill: gray, $y_r$)) &:= P + V $
+	$ (x_r, #text(fill: gray, $y_r$)) &:= P plus.circle V $
 
 	]
 
@@ -261,15 +261,24 @@ such that $y(a) = a dot b + x <=> y - x = a dot b$
 	]
 ][#grid.cell(colspan: 3)[
 #align(center)[
-	$ "Then: " x_r &= ((y_v - y_p)/(x_v - x_p))^2 - x_v - x_p \
-		2 dot "A2M" arrow.r x_r &= (A_v / B_v)^2 dot (A_p / B_p)^2 - x_v - x_p \
-		&= C_v dot C_p - x_v - x_p \
-		"M2A" arrow.r x_r &= (D_v -x_v) + (D_p - x_p)
-	$
+	#scale(80%, reflow: true)[
+		#pause
+		$ "Then: " x_r &= ((y_p - y_v)/(x_p - x_v))^2 - x_p - x_v \
+		#pause
+			2 dot "A2M" arrow.r x_r &= (A_p / B_p)^2 dot (A_v / B_v)^2 - x_p - x_v \
+		#pause
+			&= C_p dot C_v - x_p - x_v \
+		#pause
+			"M2A" arrow.r x_r &= (D_p -x_p) + (D_v - x_v)
+		$
+	]
+	#pause
+	#text(size: 20pt)[Rerun with *roles swapped* in A2M, M2A and then check for
+	  equality with GC]
 	]
 ]]
 
-
+== Pseudorandom Function (PRF)
 
 
 
