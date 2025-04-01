@@ -224,7 +224,27 @@ such that $y(a) = a dot b + x <=> y - x = a dot b$
 	)
 )
 
+== Preprocessing
+1. Specify *expected traffic* upfront: `max_sent`, `max_recv`, `max_recv_online`
+#pause
+2. OT Setup:
+	- Base OTs: *CO15* (#text(blue, size: 21pt)[https://eprint.iacr.org/2014/756])
+	- OT Extension: *KOS15* (#text(blue, size: 21pt)[https://eprint.iacr.org/2015/546])\
+        	for GC, Key Exchange, PRF, GHASH, En-/Decryption
+	- OT Extension: *Ferret* (#text(blue, size: 21pt)[https://eprint.iacr.org/2020/924])\
+		for interactive ZK 
+#pause
+3. Prover *garbles circuits* and sends them to notary
+	- En-/Decryption circuits
+	- Key Exchange and PRF circuit
+#pause
+4. Setup *interactive ZK*
+
 // in preprocesing talk about OT pipeline and GC preprocessing
 // en-/decryption: AES, GHASH, DEAP
 // proving: quicksilver
 // commitments: transformation of commitments to prg
+//
+#tum-slide(15)
+
+== Key Exchange
