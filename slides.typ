@@ -240,11 +240,42 @@ such that $y(a) = a dot b + x <=> y - x = a dot b$
 #pause
 4. Setup *interactive ZK*
 
+#tum-slide(15)
+
+== Key Exchange
+#slide(composer: (33%, 33%, 33%))[
+#align(left)[
+	$ "Prover:"\ P := (x_p, y_p) = p_p dot S $
+
+	]
+][
+#align(center)[
+	#v(1.5em)
+	$ (x_r, #text(fill: gray, $y_r$)) &:= P + V $
+
+	]
+
+][
+#align(right)[
+	$ "Verifier:"\ V := (x_v, y_v) = p_v dot S $
+	]
+][#grid.cell(colspan: 3)[
+#align(center)[
+	$ "Then: " x_r &= ((y_v - y_p)/(x_v - x_p))^2 - x_v - x_p \
+		2 dot "A2M" arrow.r x_r &= (A_v / B_v)^2 dot (A_p / B_p)^2 - x_v - x_p \
+		&= C_v dot C_p - x_v - x_p \
+		"M2A" arrow.r x_r &= (D_v -x_v) + (D_p - x_p)
+	$
+	]
+]]
+
+
+
+
+
+
 // in preprocesing talk about OT pipeline and GC preprocessing
 // en-/decryption: AES, GHASH, DEAP
 // proving: quicksilver
 // commitments: transformation of commitments to prg
 //
-#tum-slide(15)
-
-== Key Exchange
