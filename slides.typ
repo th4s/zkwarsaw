@@ -269,7 +269,8 @@ such that $y(a) = a dot b + x <=> y - x = a dot b$
 		#pause
 			&= C_p dot C_v - x_p - x_v \
 		#pause
-			"M2A" arrow.r x_r &= (D_p -x_p) + (D_v - x_v)
+			"M2A" arrow.r x_r &= (D_p -x_p) + (D_v - x_v) =: "PMS"_p +
+			"PMS"_v
 		$
 	]
 	#pause
@@ -279,7 +280,36 @@ such that $y(a) = a dot b + x <=> y - x = a dot b$
 ]]
 
 == Pseudorandom Function (PRF)
+*Expansion of PMS* by PRF, here with TLS 1.2 AESGCM PRF:
+$ P_"hash" &:= bar.v.double_i "HMAC"_"SHA256" (k, A_i || A_0) \
+ k &- "key, either PMS or MS" \
+pause
+ A_i := &"HMAC"_"SHA256" (k, A_(i - 1)), A_0 := L || S \
+ L &- "label, fixed string e.g. \"master secret\"" \
+ S &- "seed, e.g. client_random || server_random" \
+pause
+ "HMAC"_"SHA256" (k, m) &= H((k plus.circle "opad") || H ((k plus.circle "ipad")
+ || m))
+$
+- Compute $P_"hash"$ with GC to obtain *session keys*, (client/server finished vd)
 
+== Pseudorandom Function (PRF)
+Roundtrip/bandwidth tradeoff with *local hash* computation: \
+#v(0.25em)
+Trick: $H(m_1 || m_2) = f_H (f_H ("IV", m_1), m_2)$, \
+#h(1em) with SHA2 compression func: $f_H ("state", m)$
+#pause
+#v(0.25em)
+Then: computation in #text(fill: red)[GC], #text(fill: blue)[cached GC], #text(fill: green)[local]
+$ "HMAC"_"SHA256" &= #text(fill: red, $f_H ($) s_1, s_2
+				#text(fill: red, $)$) \
+			s_1 &= #text(fill: blue, $f_H ("IV", k plus.circle "opad")$) \
+			s_2 &=#text(fill: green, $f_H ($)
+				#text(fill: blue, $f_H ("IV" k plus.circle "ipad")$)
+				#text(fill: green, $, m)$)
+$ 
+#pause
+$arrow.double$ \~50% reduction of upload size, but more roundtrips
 
 
 
