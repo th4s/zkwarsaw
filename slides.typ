@@ -379,15 +379,36 @@ $arrow.double$ \~50% reduction of upload size, but more roundtrips
 == GHASH
 *MAC* for authenticity of encrypted messages per TLS record in AES-GCM
 $ "MAC"_"GHASH" = J_0 &plus.circle sum_(k=1)^l H^(l - k) B_k, "with" J_0, H, B in FF_(2^128) \
-J_0 &= "AES"_"CTR" (k, "IV", "ctr" = 1) \
+pause
+J_0 &= "AES"_"CTR" (k, "IV", "ctr" = 1, 0^128) \
 H &= "AES"_"ECB" (k, 0^128) \
 B &- "encrypted AES request/response block"
 $ 
 
+#pause
 + Compute shares of $J_0 = J_(0, 1) plus.circle J_(0, 2)$
 + Compute  shares of $sum_(k = 1)^l H^(l - k) B_k = sum_(k = 1)^l H_1^(l -k) B_k
   plus.circle sum_(k = 1)^l H_2^(l -k) B_k$
 
+== GHASH 
++ $J_0$ computation:
+	- #text(fill: green)[Prover]: $J_(0, 1) =  #text(fill: green)[$m_1$] $
+	- #text(fill: blue)[Verifier]: $J_(0, 2) = #text(fill: red)[GC(]"AES"_"CTR"
+		(k, "IV", "ctr" = 1, 0^128) plus.circle #text(fill: green)[$m_1$]
+		plus.circle #text(fill: blue)[$m_2$] #text(fill: red)[)] plus.circle
+		#text(fill: blue)[$m_2$] )$
+#pause
++ $H^k$ computation ($k=1026$):
+	+ Compute $H_1$ and $H_2$ *like $J_0$* but with $"AES"_"ECB" (k, 0^128)$ instead
+	+ With *A2M* convert $H = H_1 plus.circle H_2 arrow.r H = H_1^* dot H_2^* $
+	+ Prover and verifier *each locally compute* $(H_1^*)^k$ and  $(H_2^*)^k$
+	+ With *M2A* convert each power back to additive shares $H_1^k$ and $H_2^k$
+#pause
+$"MAC"_"GHASH" = M_1 plus.circle M_2 = J_(0, 1) plus.circle sum_(k = 1)^l
+H_1^(l-k) B_k plus.circle J_(0, 2) plus.circle sum_(k = 1)^l H_2^(l-k) B_k
+$
+
+Optimizations: Free squaring, Batch verify
 
 // in preprocesing talk about OT pipeline and GC preprocessing
 // en-/decryption: AES, GHASH, DEAP
