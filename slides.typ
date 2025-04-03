@@ -305,11 +305,76 @@ $ "HMAC"_"SHA256" &= #text(fill: red, $f_H ($) s_1, s_2
 				#text(fill: red, $)$) \
 			s_1 &= #text(fill: blue, $f_H ("IV", k plus.circle "opad")$) \
 			s_2 &=#text(fill: green, $f_H ($)
-				#text(fill: blue, $f_H ("IV" k plus.circle "ipad")$)
+				#text(fill: blue, $f_H ("IV", k plus.circle "ipad")$)
 				#text(fill: green, $, m)$)
 $ 
 #pause
 $arrow.double$ \~50% reduction of upload size, but more roundtrips
+
+== En-/Decryption AES-GCM
+#slide(composer: 2)[
+	Request Encryption
+#align(left + top,
+	box(
+		scale(75%, reflow: true,
+			diagram(spacing: 2em,
+			node((1, 0), [Prover], stroke: 2pt, shape: circle, inset: 0.5em),
+
+			node((1, 1), [CWK, \ plaintext], stroke: 1pt),
+			edge((1, 1), (2, 1), "-|>"),
+
+			edge((0, 2), (1, 2), "<|-"),
+			node((1, 2), [ciphertext], stroke: 1pt),
+			edge((1, 2), (2, 2)),
+
+			node(enclose: ((2, 1), (2,2)), [AES\ CTR], stroke: 1pt, inset:
+			1em, shape: rect),
+
+			node((3, 0), [Verifier], stroke: 2pt, shape: circle, inset: 0.5em),
+
+			node((3, 1), [CWK], stroke: 1pt, shape: rect),
+			edge((3, 1), (2, 1), "-|>"),
+
+			edge((4, 2), (3, 2), "<|-"),
+			node((3, 2), [ciphertext], stroke: 1pt),
+			edge((3, 2), (2, 2)),
+			)
+		)
+	)
+)
+	- Prover inputs the *plaintext*
+	- *Both parties* learn the *ciphertext*
+][
+	Response Decryption
+#align(right + top,
+	box(
+		scale(75%, reflow: true,
+			diagram(spacing: 2em,
+			node((1, 0), [Prover], stroke: 2pt, shape: circle, inset: 0.5em),
+
+			node((1, 1), [SWK, \ ciphertext], stroke: 1pt),
+			edge((1, 1), (2, 1), "-|>"),
+
+			edge((0, 2), (1, 2), "<|-"),
+			node((1, 2), [plaintext], stroke: 1pt),
+			edge((1, 2), (2, 2)),
+
+			node(enclose: ((2, 1), (2,2)), [AES\ CTR], stroke: 1pt, inset:
+			1em, shape: rect),
+
+			node((3, 0), [Verifier], stroke: 2pt, shape: circle, inset: 0.5em),
+
+			node((3, 1), [SWK, \ ciphertext], stroke: 1pt, shape: rect),
+			edge((3, 1), (2, 1), "-|>"),
+			)
+		)
+	)
+)
+	- *Both parties* input the *ciphertext*
+	- *Only prover* learns the *plaintext*
+]
+
+== GHASH
 
 
 
