@@ -345,6 +345,7 @@ $arrow.double$ \~50% reduction of upload size, but more roundtrips
 	- Prover inputs the *plaintext*
 	- *Both parties* learn the *ciphertext*
 ][
+	#pause
 	Response Decryption
 #align(right + top,
 	box(
@@ -372,10 +373,20 @@ $arrow.double$ \~50% reduction of upload size, but more roundtrips
 )
 	- *Both parties* input the *ciphertext*
 	- *Only prover* learns the *plaintext*
+	- Optimization: *Defer decryption*
 ]
 
 == GHASH
+*MAC* for authenticity of encrypted messages per TLS record in AES-GCM
+$ "MAC"_"GHASH" = J_0 &plus.circle sum_(k=1)^l H^(l - k) B_k, "with" J_0, H, B in FF_(2^128) \
+J_0 &= "AES"_"CTR" (k, "IV", "ctr" = 1) \
+H &= "AES"_"ECB" (k, 0^128) \
+B &- "encrypted AES request/response block"
+$ 
 
++ Compute shares of $J_0 = J_(0, 1) plus.circle J_(0, 2)$
++ Compute  shares of $sum_(k = 1)^l H^(l - k) B_k = sum_(k = 1)^l H_1^(l -k) B_k
+  plus.circle sum_(k = 1)^l H_2^(l -k) B_k$
 
 
 // in preprocesing talk about OT pipeline and GC preprocessing
