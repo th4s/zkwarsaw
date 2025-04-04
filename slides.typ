@@ -412,12 +412,14 @@ Optimizations: Free squaring, Batch verify
 
 == Proving
 - *After closing the TLS connection* verifier has no secrets anymore!
+#pause
 - Use an efficient IZK protocol (Quicksilver: #text(blue, size:
   21pt)[https://eprint.iacr.org/2021/076]) \
 	- Use subfield VOLE to *create MACs* and check their transformation under
 	  the circuit: $ #text(fill: green)[$m_i$] = #text(fill: blue)[$k_i$]
 	  + #text(fill: blue)[$Delta$] dot #text(fill: green)[$u_i$],
 	  "with" m_i, k_i in FF_(2^128)^l, u_i in F_2^l, Delta in F_(2^128) $
+#pause
 - Verifier and prover *decode* the verifier's secret inputs and prover *proves*
 	+ *all GC computations* of the entire protocol
 	+ that he knows the *cleartext of the server responses*
@@ -428,3 +430,48 @@ Optimizations: Decode server-write-key for verifier
 // proving: quicksilver
 // commitments: transformation of commitments to prg
 //
+
+== Creating Commitments
+#slide(composer: 2)[
+=== Prover
+#uncover("2-")[
+#v(2em)
+2. Prover adapts $m_i$  and creates *blinded commitments* $H_i (b_i, m_k..m_(k + l))$ and sends *merkle
+  root* of $R(H_i| i=1..)$ to notary
+#v(1em)
+]
+#uncover("4-")[
+4. Prover can now create a *presentation* for verifiers
+]
+][
+=== Notary
+#uncover("1-")[
+1. Notary *adapts his keys*:\ $k_i
+  arrow.r "Prg"(s, i)$ and *sends* \ $delta_i := "Prg"(s, i) plus.circle k_i$ to prover
+#v(2em)
+]
+#uncover("3-")[
+3. Notary sends to Prover  a *signed attestation* $A = {s, Delta, R(H_i), ...}$
+#v(1em)
+]
+#uncover("4-")[
+Other commitments: SHA256, AES, ...
+]
+]
+
+== Thank you!
+#slide(composer: 2)[
+#let thanks = image("tum-presi/26.svg")
+#utils.fit-to-height(80%, thanks)
+][
+#align(horizon)[
+	- `https://tlsnotary.org`
+	- `https://explorer.tlsnotary.org`
+	- `https://docs.tlsnotary.org`
+	#v(1em)
+	- `https://github.com/tlsnotary/tlsn`
+	- `https://github.com/tlsnotary/tlsn-js`
+	- `https://github.com/tlsnotary/tlsn-extension`
+]
+]
+
