@@ -150,7 +150,7 @@
 	- (either) garbler sends *decoding information* $f: w_i arrow.r
 	  c_i, i in OO$
 	- (or) evaluator sends *active output labels* $w_i, i in OO$
-Optimizations: Row reduction, Free XOR, Half gates
+Optimizations: Row reduction, Free XOR, Half gates, Fixed key AES
 
 == Oblivious Linear Evaluation (OLE)#h(1em) #text(blue, size: 20pt)[https://eprint.iacr.org/2017/617]
 #align(center + horizon, 
@@ -409,6 +409,19 @@ H_1^(l-k) B_k plus.circle J_(0, 2) plus.circle sum_(k = 1)^l H_2^(l-k) B_k
 $
 
 Optimizations: Free squaring, Batch verify
+
+== Proving
+- *After closing the TLS connection* verifier has no secrets anymore!
+- Use an efficient IZK protocol (Quicksilver: #text(blue, size:
+  21pt)[https://eprint.iacr.org/2021/076]) \
+	- Use subfield VOLE to *create MACs* and check their transformation under
+	  the circuit: $ #text(fill: green)[$m_i$] = #text(fill: blue)[$k_i$]
+	  + #text(fill: blue)[$Delta$] dot #text(fill: green)[$u_i$],
+	  "with" m_i, k_i in FF_(2^128)^l, u_i in F_2^l, Delta in F_(2^128) $
+- Verifier and prover *decode* the verifier's secret inputs and prover *proves*
+	+ *all GC computations* of the entire protocol
+	+ that he knows the *cleartext of the server responses*
+Optimizations: Decode server-write-key for verifier 
 
 // in preprocesing talk about OT pipeline and GC preprocessing
 // en-/decryption: AES, GHASH, DEAP
