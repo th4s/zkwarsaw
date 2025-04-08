@@ -32,8 +32,8 @@
 	=== Techniques
 	- Oblivious Transfer
 	- Garbled Circuits
-	- (V)OLE, M2A, A2M
-	- Interactive ZK
+	- (V)OLE
+	- (Interactive ZK)
 ][
 	=== Phases
 	+ Preprocessing
@@ -174,6 +174,7 @@ Optimizations: Row reduction, Free XOR, Half gates, Fixed key AES
 such that $y(b) = a dot b + x <=> y - x = a dot b$ 
 
 - sometimes also called M2A
+- building block for A2M and IZK
 - *VOLE*: $y_k = a_k dot b  + x_k$
 
 == VOLE (MASCOT COPEe) #h(5em) #text(blue, size: 20pt)[https://eprint.iacr.org/2016/505]
