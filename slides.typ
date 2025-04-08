@@ -185,7 +185,7 @@ such that $y(b) = a dot b + x <=> y - x = a dot b$
 			edge((-0.5, 1), (0.5, 1), label: $(t_0^i, t_1^i)$, "<|-"),
 			node((0.5, 1), $"ROT"_"i"$, stroke: 1pt, inset: 3em),
 			edge((0.5, 0.75), (2, 0.75), $b_i$, "<|-"),
-			edge((0.5, 1.25), (2, 1.25), $t_(b_i)$, "-|>"),
+			edge((0.5, 1.25), (2, 1.25), $t_(b_i)^i$, "-|>"),
 			node((3, 0), $P_B " Input:" b in FF$),
 
 
