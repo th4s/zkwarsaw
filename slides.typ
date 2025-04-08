@@ -18,12 +18,13 @@
 
 #tum-slide(1)
 #tum-slide(2)
-#for k in range(4, 9) {
+#for k in range(4, 8) {
 	tum-slide(k)
 }
-#for k in range(11, 13) {
-	tum-slide(k)
-}
+
+#tum-slide(11)
+#tum-slide(12)
+
 
 == TLSNotary Protocol
 
@@ -170,7 +171,7 @@ Optimizations: Row reduction, Free XOR, Half gates, Fixed key AES
 		node((4, 1.5), [$a,b,x,y in FF$])
 	)
 )
-such that $y(a) = a dot b + x <=> y - x = a dot b$ 
+such that $y(b) = a dot b + x <=> y - x = a dot b$ 
 
 - sometimes also called M2A
 - *VOLE*: $y_k = a_k dot b  + x_k$
@@ -280,7 +281,7 @@ such that $y(a) = a dot b + x <=> y - x = a dot b$
 ]]
 
 == Pseudorandom Function (PRF)
-*Expansion of PMS* by PRF, here with TLS 1.2 AESGCM PRF:
+*Expansion of PMS* by PRF, here with TLS 1.2 AES-GCM PRF:
 $ P_"hash" &:= bar.v.double_i "HMAC"_"SHA256" (k, A_i || A_0) \
  k &- "key, either PMS or MS" \
 pause
