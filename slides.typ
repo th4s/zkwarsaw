@@ -429,12 +429,6 @@ Optimizations: Free squaring, Batch verify
 	+ that he knows the *cleartext of the server responses*
 Optimizations: Decode server-write-key for verifier 
 
-// in preprocesing talk about OT pipeline and GC preprocessing
-// en-/decryption: AES, GHASH, DEAP
-// proving: quicksilver
-// commitments: transformation of commitments to prg
-//
-
 == Creating Commitments
 #slide(composer: 2)[
 === Prover
