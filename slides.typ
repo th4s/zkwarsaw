@@ -140,7 +140,7 @@
 
 == Garbled Circuits #h(8em) #text(blue, size: 20pt)[https://eprint.iacr.org/2014/756]
 4. Garbler sends to the evaluator
-	- the garbled circuit: ${Gamma_(i j)^k| i,j,k in C}$
+	- the *garbled circuit*: ${Gamma_(i j)^k| i,j,k in C}$
 	- his *active input labels*: $w_i, i in II_G$
 	- the evaluator's *input labels*: $O T(w_i^0, w_i^1), i in II_E$
 #pause
@@ -192,7 +192,9 @@ such that $y(b) = a dot b + x <=> y - x = a dot b$
 			node((-0.5, -1), [*Setup:*]),
 			node((0, 2), $s_(i, 0)^k := "PRF" (t_0^i, k),
 				s_(i, 1)^k := "PRF" (t_1^i, k)$, ),
+			node((0, 0), $P_A$),
 
+			node((0.5, 0), $t_0^i, t_1^i in FF$),
 			)
 		)
 	)
