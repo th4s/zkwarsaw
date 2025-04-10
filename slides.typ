@@ -177,57 +177,6 @@ such that $y(b) = a dot b + x <=> y - x = a dot b$
 - building block for A2M and IZK
 - *VOLE*: $y_k = a_k dot b  + x_k$
 
-== VOLE (MASCOT COPEe) #h(5em) #text(blue, size: 20pt)[https://eprint.iacr.org/2016/505]
-#align(center + horizon,
-	box(
-		scale(85%, reflow: true,
-			diagram(spacing: 1em,
-			edge((-0.5, 1), (0.5, 1), label: $(t_0^i, t_1^i)$, "<|-"),
-			node((0.5, 1), $"ROT"_"i"$, stroke: 1pt, inset: 3em),
-			edge((0.5, 0.75), (2, 0.75), $b_i$, "<|-"),
-			edge((0.5, 1.25), (2, 1.25), $t_(b_i)^i$, "-|>"),
-			node((3, 0), $P_B " Input:" b in FF$),
-
-
-			node((-0.5, -1), [*Setup:*]),
-			node((0, 2), $s_(i, 0)^k := "PRF" (t_0^i, k),
-				s_(i, 1)^k := "PRF" (t_1^i, k)$, ),
-			node((0, 0), $P_A$),
-
-			node((0.5, 0), $t_0^i, t_1^i in FF$),
-			)
-		)
-	)
-)
-
-== VOLE (MASCOT COPEe) #h(5em) #text(blue, size: 20pt)[https://eprint.iacr.org/2016/505]
-#align(center + horizon,
-	box(
-		scale(85%, reflow: true,
-			diagram(spacing: 1em,
-			node((0, 0), [*Extend:*]),
-			node((0, 1), $P_A " Input:" a in FF$),
-			node((4, 1), $P_B " Input:" b in FF$),
-			edge((0, 4), (4, 4), $u_i^k := s_(i, 0)^k - s_(i, 1)^k +
-			a_k$,"-|>"),
-
-
-			node((0, 6), $x_i^k := s_(i, 0)^k$),
-
-			node((4, 6), $y_i^k &= b_i dot u_i^k +
-			s_(i, b_i)^k \
-			&= b_i (s_(i, 0)^k - s_(i, 1)^k + a_k) + s_(i, b_i)^k \
-			&= b_i dot a_k + s_(i, 0)^k
-			$),
-			
-
-			node((0, 7), $" Output:" x_k = sum 2^i x_i^k $),
-			node((4, 7), $" Output:" y_k = sum 2^i y_i^k$),
-			)
-		)
-	)
-)
-
 == Preprocessing
 1. Specify *expected traffic* upfront: `max_sent`, `max_recv`, `max_recv_online`
 #pause
@@ -473,3 +422,53 @@ Other commitments: SHA256, AES, ...
 ]
 ]
 
+== VOLE (MASCOT COPEe) #h(5em) #text(blue, size: 20pt)[https://eprint.iacr.org/2016/505]
+#align(center + horizon,
+	box(
+		scale(85%, reflow: true,
+			diagram(spacing: 1em,
+			edge((-0.5, 1), (0.5, 1), label: $(t_0^i, t_1^i)$, "<|-"),
+			node((0.5, 1), $"ROT"_"i"$, stroke: 1pt, inset: 3em),
+			edge((0.5, 0.75), (2, 0.75), $b_i$, "<|-"),
+			edge((0.5, 1.25), (2, 1.25), $t_(b_i)^i$, "-|>"),
+			node((3, 0), $P_B " Input:" b in FF$),
+
+
+			node((-0.5, -1), [*Setup:*]),
+			node((0, 2), $s_(i, 0)^k := "PRF" (t_0^i, k),
+				s_(i, 1)^k := "PRF" (t_1^i, k)$, ),
+			node((0, 0), $P_A$),
+
+			node((0.5, 0), $t_0^i, t_1^i in FF$),
+			)
+		)
+	)
+)
+
+== VOLE (MASCOT COPEe) #h(5em) #text(blue, size: 20pt)[https://eprint.iacr.org/2016/505]
+#align(center + horizon,
+	box(
+		scale(85%, reflow: true,
+			diagram(spacing: 1em,
+			node((0, 0), [*Extend:*]),
+			node((0, 1), $P_A " Input:" a_k in FF$),
+			node((4, 1), $P_B " Input:" b in FF$),
+			edge((0, 4), (4, 4), $u_i^k := s_(i, 0)^k - s_(i, 1)^k +
+			a_k$,"-|>"),
+
+
+			node((0, 6), $x_i^k := s_(i, 0)^k$),
+
+			node((4, 6), $y_i^k &= b_i dot u_i^k +
+			s_(i, b_i)^k \
+			&= b_i (s_(i, 0)^k - s_(i, 1)^k + a_k) + s_(i, b_i)^k \
+			&= b_i dot a_k + s_(i, 0)^k
+			$),
+			
+
+			node((0, 7), $" Output:" x_k = sum 2^i x_i^k $),
+			node((4, 7), $" Output:" y_k = sum 2^i y_i^k$),
+			)
+		)
+	)
+)
