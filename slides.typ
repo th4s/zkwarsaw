@@ -234,7 +234,7 @@ such that $y(b) = a dot b + x <=> y - x = a dot b$
 
 == Pseudorandom Function (PRF)
 *Expansion of PMS* by PRF, here with TLS 1.2 AES-GCM PRF:
-$ P_"hash" &:= bar.v.double_i "HMAC"_"SHA256" (k, A_i || A_0) \
+$ P_"hash" &:= bar.v.double_(i=1)^2 P_i, #h(1em) P_i := "HMAC"_"SHA256" (k, A_i || A_0) \
  k &- "key, either PMS or MS" \
 pause
  A_i := &"HMAC"_"SHA256" (k, A_(i - 1)), A_0 := L || S \
