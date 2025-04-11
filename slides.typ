@@ -246,24 +246,6 @@ pause
 $
 - Compute $P_"hash"$ with GC to obtain *session keys*, (client/server finished vd)
 
-== Pseudorandom Function (PRF)
-Roundtrip/bandwidth tradeoff with *local hash* computation: \
-#v(0.25em)
-Trick: $H(m_1 || m_2) = f_H (f_H ("IV", m_1), m_2)$, \
-#h(1em) with SHA2 compression func: $f_H ("state", m)$
-#pause
-#v(0.25em)
-Then: computation in #text(fill: red)[GC], #text(fill: blue)[cached GC], #text(fill: green)[local]
-$ "HMAC"_"SHA256" &= #text(fill: red, $f_H ($) s_1, s_2
-				#text(fill: red, $)$) \
-			s_1 &= #text(fill: blue, $f_H ("IV", k plus.circle "opad")$) \
-			s_2 &=#text(fill: green, $f_H ($)
-				#text(fill: blue, $f_H ("IV", k plus.circle "ipad")$)
-				#text(fill: green, $, m)$)
-$ 
-#pause
-$arrow.double$ \~50% reduction of upload size, but more roundtrips
-
 == En-/Decryption AES-GCM
 #slide(composer: 2)[
 	Request Encryption
@@ -422,6 +404,8 @@ Other commitments: SHA256, AES, ...
 ]
 ]
 
+= BACKUP
+
 == VOLE (MASCOT COPEe) #h(5em) #text(blue, size: 20pt)[https://eprint.iacr.org/2016/505]
 #align(center + horizon,
 	box(
@@ -472,3 +456,22 @@ Other commitments: SHA256, AES, ...
 		)
 	)
 )
+
+== PRF Optimization
+Roundtrip/bandwidth tradeoff with *local hash* computation: \
+#v(0.25em)
+Trick: $H(m_1 || m_2) = f_H (f_H ("IV", m_1), m_2)$, \
+#h(1em) with SHA2 compression func: $f_H ("state", m)$
+#pause
+#v(0.25em)
+Then: computation in #text(fill: red)[GC], #text(fill: blue)[cached GC], #text(fill: green)[local]
+$ "HMAC"_"SHA256" &= #text(fill: red, $f_H ($) s_1, s_2
+				#text(fill: red, $)$) \
+			s_1 &= #text(fill: blue, $f_H ("IV", k plus.circle "opad")$) \
+			s_2 &=#text(fill: green, $f_H ($)
+				#text(fill: blue, $f_H ("IV", k plus.circle "ipad")$)
+				#text(fill: green, $, m)$)
+$ 
+#pause
+$arrow.double$ \~50% reduction of upload size, but more roundtrips
+
