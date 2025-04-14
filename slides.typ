@@ -66,36 +66,6 @@
 
 
 
-== CO15 Protocol #h(8em) #text(blue, size: 20pt)[https://eprint.iacr.org/2015/267]
-#align(center + horizon,
-	box(
-		scale(85%, reflow: true,
-			diagram(spacing: 1em,
-				node((0, 0), $P_S " Input": (m_0, m_1)$),
-				node((3, 0), $P_R "Input: c Output:" m_c$),
-				node((0, 1), $a arrow.l ZZ_p$),
-				node((3, 1), $b arrow.l ZZ_p$),
-				edge((0.5, 2), (2.5, 2), $A = g^a$, "-|>"),
-				pause,
-
-				node((3, 3), $"if" c = 0: B = g^b$),
-				node((3, 3.5), $"  if" c = 1: B = A g^b$),
-				edge((0.5, 4.5), (2.5, 4.5), $B$, "<|-"),
-				pause,
-
-				node((0, 5), $k_0 = H(B^a)$),
-				node((0, 5.75), $k_1 = H((frac(B, A))^a)$),
-				pause,
-
-				edge((0.5, 8.5), (2.5, 8.5), $(e_0 , e_1) = (E_(k_0)(m_0), E_(k_1)(m_1))$, "-|>"),
-				node((3, 5), $k_R = H(A^b)$),
-				node((3, 9), $m_c = D_(k_R)(e_c)$),
-			)
-		)
-	)
-)
-
-
 == Garbled Circuits #h(8em) #text(blue, size: 20pt)[https://eprint.iacr.org/2014/756]
 #slide(composer: 2)[#grid.cell(colspan: 2)[
 	Two parties, garbler $G$, evaluator $E$ want to compute $f(x_G, y_E) =
@@ -195,43 +165,6 @@ such that $y(b) = a dot b + x <=> y - x = a dot b$
 
 #tum-slide(15)
 
-== Key Exchange
-#slide(composer: (33%, 33%, 33%))[
-#align(left)[
-	$ "Prover:"\ P := (x_p, y_p) = p_p dot S $
-
-	]
-][
-#align(center)[
-	#v(1.5em)
-	$ (x_r, #text(fill: gray, $y_r$)) &:= P plus.circle V $
-
-	]
-
-][
-#align(right)[
-	$ "Verifier:"\ V := (x_v, y_v) = p_v dot S $
-	]
-][#grid.cell(colspan: 3)[
-#align(center)[
-	#scale(80%, reflow: true)[
-		#pause
-		$ "Then: " x_r &= ((y_p - y_v)/(x_p - x_v))^2 - x_p - x_v \
-		#pause
-			2 dot "A2M" arrow.r x_r &= (A_p / B_p)^2 dot (A_v / B_v)^2 - x_p - x_v \
-		#pause
-			&= C_p dot C_v - x_p - x_v \
-		#pause
-			"M2A" arrow.r x_r &= (D_p -x_p) + (D_v - x_v) =: "PMS"_p +
-			"PMS"_v
-		$
-	]
-	#pause
-	#text(size: 20pt)[Rerun with *roles swapped* in A2M, M2A and then check for
-	  equality with GC]
-	]
-]]
-
 == Pseudorandom Function (PRF)
 *Expansion of PMS* by PRF, here with TLS 1.2 AES-GCM PRF:
 $ P_"hash" &:= bar.v.double_(i=1)^2 P_i, #h(1em) P_i := "HMAC"_"SHA256" (k, A_i || A_0) \
@@ -325,26 +258,6 @@ $
 + Compute  shares of $sum_(k = 1)^l H^(l - k) B_k = sum_(k = 1)^l H_1^(l -k) B_k
   plus.circle sum_(k = 1)^l H_2^(l -k) B_k$
 
-== GHASH 
-+ $J_0$ computation:
-	- #text(fill: green)[Prover]: $J_(0, 1) =  #text(fill: green)[$m_1$] $
-	- #text(fill: blue)[Verifier]: $J_(0, 2) = #text(fill: red)[GC(]"AES"_"CTR"
-		(k, "IV", "ctr" = 1, 0^128) plus.circle #text(fill: green)[$m_1$]
-		plus.circle #text(fill: blue)[$m_2$] #text(fill: red)[)] plus.circle
-		#text(fill: blue)[$m_2$] )$
-#pause
-+ $H^k$ computation ($k=1026$):
-	+ Compute $H_1$ and $H_2$ *like $J_0$* but with $"AES"_"ECB" (k, 0^128)$ instead
-	+ With *A2M* convert $H = H_1 plus.circle H_2 arrow.r H = H_1^* dot H_2^* $
-	+ Prover and verifier *each locally compute* $(H_1^*)^k$ and  $(H_2^*)^k$
-	+ With *M2A* convert each power back to additive shares $H_1^k$ and $H_2^k$
-#pause
-$"MAC"_"GHASH" = M_1 plus.circle M_2 = J_(0, 1) plus.circle sum_(k = 1)^l
-H_1^(l-k) B_k plus.circle J_(0, 2) plus.circle sum_(k = 1)^l H_2^(l-k) B_k
-$
-
-Optimizations: Free squaring, Batch verify
-
 == Proving
 - *After closing the TLS connection* verifier has no secrets anymore!
 #pause
@@ -406,6 +319,35 @@ Other commitments: SHA256, AES, ...
 
 = BACKUP
 
+== CO15 Protocol #h(8em) #text(blue, size: 20pt)[https://eprint.iacr.org/2015/267]
+#align(center + horizon,
+	box(
+		scale(85%, reflow: true,
+			diagram(spacing: 1em,
+				node((0, 0), $P_S " Input": (m_0, m_1)$),
+				node((3, 0), $P_R "Input: c Output:" m_c$),
+				node((0, 1), $a arrow.l ZZ_p$),
+				node((3, 1), $b arrow.l ZZ_p$),
+				edge((0.5, 2), (2.5, 2), $A = g^a$, "-|>"),
+				pause,
+
+				node((3, 3), $"if" c = 0: B = g^b$),
+				node((3, 3.5), $"  if" c = 1: B = A g^b$),
+				edge((0.5, 4.5), (2.5, 4.5), $B$, "<|-"),
+				pause,
+
+				node((0, 5), $k_0 = H(B^a)$),
+				node((0, 5.75), $k_1 = H((frac(B, A))^a)$),
+				pause,
+
+				edge((0.5, 8.5), (2.5, 8.5), $(e_0 , e_1) = (E_(k_0)(m_0), E_(k_1)(m_1))$, "-|>"),
+				node((3, 5), $k_R = H(A^b)$),
+				node((3, 9), $m_c = D_(k_R)(e_c)$),
+			)
+		)
+	)
+)
+
 == VOLE (MASCOT COPEe) #h(5em) #text(blue, size: 20pt)[https://eprint.iacr.org/2016/505]
 #align(center + horizon,
 	box(
@@ -457,6 +399,43 @@ Other commitments: SHA256, AES, ...
 	)
 )
 
+== Key Exchange
+#slide(composer: (33%, 33%, 33%))[
+#align(left)[
+	$ "Prover:"\ P := (x_p, y_p) = p_p dot S $
+
+	]
+][
+#align(center)[
+	#v(1.5em)
+	$ (x_r, #text(fill: gray, $y_r$)) &:= P plus.circle V $
+
+	]
+
+][
+#align(right)[
+	$ "Verifier:"\ V := (x_v, y_v) = p_v dot S $
+	]
+][#grid.cell(colspan: 3)[
+#align(center)[
+	#scale(80%, reflow: true)[
+		#pause
+		$ "Then: " x_r &= ((y_p - y_v)/(x_p - x_v))^2 - x_p - x_v \
+		#pause
+			2 dot "A2M" arrow.r x_r &= (A_p / B_p)^2 dot (A_v / B_v)^2 - x_p - x_v \
+		#pause
+			&= C_p dot C_v - x_p - x_v \
+		#pause
+			"M2A" arrow.r x_r &= (D_p -x_p) + (D_v - x_v) =: "PMS"_p +
+			"PMS"_v
+		$
+	]
+	#pause
+	#text(size: 20pt)[Rerun with *roles swapped* in A2M, M2A and then check for
+	  equality with GC]
+	]
+]]
+
 == PRF Optimization
 Roundtrip/bandwidth tradeoff with *local hash* computation: \
 #v(0.25em)
@@ -474,4 +453,24 @@ $ "HMAC"_"SHA256" &= #text(fill: red, $f_H ($) s_1, s_2
 $ 
 #pause
 $arrow.double$ \~50% reduction of upload size, but more roundtrips
+
+== GHASH 
++ $J_0$ computation:
+	- #text(fill: green)[Prover]: $J_(0, 1) =  #text(fill: green)[$m_1$] $
+	- #text(fill: blue)[Verifier]: $J_(0, 2) = #text(fill: red)[GC(]"AES"_"CTR"
+		(k, "IV", "ctr" = 1, 0^128) plus.circle #text(fill: green)[$m_1$]
+		plus.circle #text(fill: blue)[$m_2$] #text(fill: red)[)] plus.circle
+		#text(fill: blue)[$m_2$] )$
+#pause
++ $H^k$ computation ($k=1026$):
+	+ Compute $H_1$ and $H_2$ *like $J_0$* but with $"AES"_"ECB" (k, 0^128)$ instead
+	+ With *A2M* convert $H = H_1 plus.circle H_2 arrow.r H = H_1^* dot H_2^* $
+	+ Prover and verifier *each locally compute* $(H_1^*)^k$ and  $(H_2^*)^k$
+	+ With *M2A* convert each power back to additive shares $H_1^k$ and $H_2^k$
+#pause
+$"MAC"_"GHASH" = M_1 plus.circle M_2 = J_(0, 1) plus.circle sum_(k = 1)^l
+H_1^(l-k) B_k plus.circle J_(0, 2) plus.circle sum_(k = 1)^l H_2^(l-k) B_k
+$
+
+Optimizations: Free squaring, Batch verify
 
